@@ -1,0 +1,8 @@
+php artisan vendor:publish
+Select laravel-pagination number and Hit enter
+Inside AppServiceProvider
+.. .. use Illuminate\Pagination\Paginator
+
+.. .. Inside boot method
+
+.. .. .. .. Paginator::useTailwind();
