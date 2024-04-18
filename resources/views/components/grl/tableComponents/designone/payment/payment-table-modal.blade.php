@@ -38,9 +38,17 @@
         <x-slot:content>
             <div class="grid grid-cols-1">
                 <x-grl.input.input-dark wire:model="payment_id" type="hidden"/>
-                <x-grl.input.group-black label="Duration" for="duration" :error="$errors->first('duration')">
-                    <x-grl.input.input-dark wire:model="duration" id="duration" placeholder="Eg: 0-3Months or Outright" />
-                </x-grl.input.group-black>
+               
+                <div class="w-full">
+                    <x-grl.input.group-black  label="Duration" for="duration"  :error="$errors->first('duration')">
+                        <x-grl.input.select class="flex w-full"  wire:model.blur='duration'>
+                            <option value="" selected disabled>Select Duration</option>
+                            @foreach ($list_durations as $key=>$value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </x-grl.input.select>
+                    </x-grl.input.group-black>
+                </div>
                 <div>
                     <div class="items-center justify-between gap-4 space-y-2 md:space-y-6 mt-2">
                         <div class="w-full">

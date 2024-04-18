@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Admin\Forms;
 
 use Illuminate\Http\Request;
 use App\Models\ArstonDesignOne;
-//use Spatie\LaravelPdf\Facades\Pdf;
-// use Barryvdh\DomPDF\Facade\Pdf;
+// use Spatie\LaravelPdf\Facades\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Spatie\Browsershot\Browsershot;
+
 use function Spatie\LaravelPdf\Support\pdf;
-use mikehaertl\wkhtmlto\Pdf;
+// use mikehaertl\wkhtmlto\Pdf;
 
 
 class ArstonDesingOneController extends Controller
@@ -18,21 +21,19 @@ class ArstonDesingOneController extends Controller
        
         $filename = $arston->estate_name.'.pdf';
   
-    //    return pdf('pdfs.index', ['arston' => $arston])
+    //    return Pdf('pdfs.index', ['arston' => $arston])
     //     ->format('a4')
     //     ->save($filename);
-        // return pdf('pdfs.index', ['arston'=>$arston]);
 
-        // You can pass a filename, a HTML string, an URL or an options array to the constructor
-        $pdf = new Pdf('pdfs.index.blade.php');
+    //     $view = view('pdfs.index')->render();
+    //     $path = public_path("pdfs");
+    //     if(!File::exists($path)){
+    //         File::makeDirectory($path, 0755, true);
+    //     }
+    //    Browsershot::html($view)->save($path.'arston.pdf');
+    $pdf = Pdf::loadView('pdfs.index', ['arston'=>$arston]);
+    return $pdf->download($filename);
 
-        // On some systems you may have to set the path to the wkhtmltopdf executable
-        // $pdf->binary = 'C:\...';
-
-        if (!$pdf->saveAs('pdfs.index.blade.php')) {
-            $error = $pdf->getError();
-           return $error;
-        }
     }
     
 }
