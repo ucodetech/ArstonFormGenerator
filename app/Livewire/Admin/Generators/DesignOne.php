@@ -136,12 +136,12 @@ class DesignOne extends Component
         }
 
         public function updatedEstateName(){
-            return $this->validate([
-                'estate_name' => ['required', 'string', 'unique:'.ArstonDesignOne::class],
-                [
+             $this->validate([
+                'estate_name' => ['required', 'string', 'unique:'.ArstonDesignOne::class]
+                
+                ],[
                     'estate_name.exists' => 'This estate has already be added the database!'
-                ]
-            ]);
+                ]);
         }
 
 

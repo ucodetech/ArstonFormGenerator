@@ -34,10 +34,11 @@ class PaymentPlan extends Component
             'filter-date-end' => null,
         ];
         public string $msg = '';
-        public string $duration;
+        public string $duration = '';
         public string $amount;
-        public string $payment_sqm;
+        public string $payment_sqm = '';
         public $list_sqms = [];
+        public $list_durations = [];
 
     #endregion
         protected $listeners = ['refreshTransactions' => '$refresh'];
@@ -56,6 +57,13 @@ class PaymentPlan extends Component
                     '500sqm' => '500SQM',
                     '600sqm' => '600SQM'
             ];
+
+            $this->list_durations = [
+                'Outright' => 'OUTRIGHT',
+                '0-3Months' => '0-3MONTHS',
+                '3-6Months' => '3-6MONTHS',
+                '6-12Months' => '6-12MONTHS'
+        ];
         }
         public function toggleShowFilters(){
             $this->useCachedRows();
@@ -116,6 +124,11 @@ class PaymentPlan extends Component
             $this->modalTitle = "Payment Plan";
         }
 
+        public function updatedDuration(){
+            $this->validate(['duration' => 'unique:'.ArstonDesignOnePaymentPlan::class],
+            ['exists.duration'=> $this->duration ." Duration already added"]);
+        }
+
         public function saveDesignOnePaymentPlan(){
             
             if($this->payment_id != null)
@@ -132,7 +145,6 @@ class PaymentPlan extends Component
             }else{
                 $this->validate([
                     'duration' => ['required', 'unique:'.ArstonDesignOnePaymentPlan::class],
-                    'amount' => ['required', 'unique:'.ArstonDesignOnePaymentPlan::class]
 
                 ]);
                 $payment = new ArstonDesignOnePaymentPlan();
